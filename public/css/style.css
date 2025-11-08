@@ -232,3 +232,153 @@ body {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     }
 }
+
+/* Background dan teks umum */
+body {
+    background-color: #0f0f0f;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container utama */
+.netflix-container {
+    margin-top: 40px;
+}
+
+/* Judul Halaman */
+.netflix-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+    margin-bottom: 20px;
+    border-left: 4px solid #e50914;
+    padding-left: 10px;
+}
+
+/* Grid poster film */
+.film-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.2rem;
+}
+
+/* Kartu film */
+.film-card {
+    position: relative;
+    background-color: #181818;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.film-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* Gambar poster */
+.film-card img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+}
+
+/* Label Featured */
+.badge-featured {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e50914;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+/* Info film */
+.film-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.film-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.film-meta {
+    font-size: 0.8rem;
+    color: #ccc;
+    line-height: 1.3;
+}
+
+/* Tombol Tonton Sekarang */
+.btn-watch-now {
+    display: inline-block;
+    margin-top: 8px;
+    background-color: #e50914;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-watch-now:hover {
+    background-color: #f40612;
+    transform: scale(1.05);
+    text-decoration: none;
+    color: white;
+}
+/* ============================= */
+/* 🔴 Netflix-style Navbar */
+/* ============================= */
+.netflix-nav {
+    background-color: #141414;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    padding: 0.6rem 2rem;
+}
+
+.netflix-logo {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.netflix-menu .nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.netflix-menu .nav-link:hover {
+    color: #e50914 !important;
+}
+
+.netflix-search input {
+    background-color: #333;
+    border: none;
+    color: #fff;
+}
+
+.netflix-search input::placeholder {
+    color: #aaa;
+}
+
+.netflix-search .btn-outline-light {
+    border-color: #555;
+    color: #ccc;
+}
+
+.netflix-search .btn-outline-light:hover {
+    background-color: #e50914;
+    color: #fff;
+}
