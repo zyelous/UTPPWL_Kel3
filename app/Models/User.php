@@ -20,11 +20,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // ✅ tambahkan ini
+        'role', 
     ];
 
     /**
-     * Kolom yang disembunyikan saat serialisasi (JSON)
+     * Kolom yang disembunyikan saat serialisasi
      *
      * @var array<int, string>
      */
@@ -34,12 +34,35 @@ class User extends Authenticatable
     ];
 
     /**
-     * Konversi tipe data otomatis
+     * Konversi otomatis untuk tipe data tertentu
      *
      * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+    /**
+     * Relasi: satu user bisa memiliki banyak film
+     */
+    public function films()
+    {
+        return $this->hasMany(Film::class);
+    }
+
+    /**
+     * Cek apakah user adalah admin
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Cek apakah user adalah user biasa
+     */
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
 }

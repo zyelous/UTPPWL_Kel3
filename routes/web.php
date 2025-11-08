@@ -1,42 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FilmController;
 use App\Http\Controllers\GenreController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| File ini berisi semua route untuk aplikasi Daftar Film Favorit.
-|
-*/
-
-// 👇 Jika belum login, arahkan ke halaman login
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// ============================
-// 🔐 AUTHENTICATION ROUTES
-// ============================
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+// Auth (login/register)
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// ============================
-// 🔒 PROTECTED ROUTES
-// ============================
-Route::middleware(['auth'])->group(function () {
-    // CRUD Film untuk semua user yang login
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+// Admin area (CRUD)
+Route::middleware(['auth','role:admin'])->group(function () {
     Route::resource('films', FilmController::class);
+    Route::resource('genres', GenreController::class);
+});
 
-    // CRUD Genre hanya bisa diakses oleh admin
-    Route::middleware('role:admin')->group(function () {
-        Route::resource('genres', GenreController::class);
-    });
+// User area
+Route::middleware(['auth','role:user'])->group(function () {
+    Route::get('/home', [FilmController::class, 'showForUser'])->name('user.home');
 });

@@ -9,10 +9,9 @@ class CheckRole
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        if (auth()->user()->role !== $role) {
-            abort(403, 'Anda tidak memiliki akses.');
+        if (!auth()->check() || auth()->user()->role !== $role) {
+            abort(403, 'Akses ditolak.');
         }
         return $next($request);
     }
 }
-
