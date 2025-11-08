@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -19,12 +18,15 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register']);
 
 // Admin area (CRUD)
-Route::middleware(['auth','role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('films', FilmController::class);
     Route::resource('genres', GenreController::class);
 });
 
 // User area
-Route::middleware(['auth','role:user'])->group(function () {
+Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [FilmController::class, 'showForUser'])->name('user.home');
 });
+
+// Route publik agar user bisa lihat daftar film
+Route::get('/films', [FilmController::class, 'index'])->name('films.index');

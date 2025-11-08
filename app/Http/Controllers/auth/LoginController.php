@@ -29,7 +29,10 @@ class LoginController extends Controller
             return redirect()->route('user.home');
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah'])->withInput();
+        // Pesan error kalau email atau password salah
+        return back()->withErrors([
+            'email' => 'Email atau password salah',
+        ])->withInput();
     }
 
     public function logout(Request $request)

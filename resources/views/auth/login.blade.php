@@ -4,6 +4,15 @@
 <div class="d-flex justify-content-center">
   <div class="card p-4" style="width:380px;background:#111;color:#fff;">
     <h4 class="text-center text-danger mb-3">Masuk</h4>
+
+    {{-- 🔔 Notifikasi Error --}}
+    @if ($errors->any())
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ $errors->first() }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
       @csrf
       <div class="mb-3">
