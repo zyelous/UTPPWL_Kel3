@@ -1,11 +1,30 @@
 @extends('layouts.app')
 @php use Illuminate\Support\Str; @endphp
+
 @section('content')
+{{-- ================= STYLES ================= --}}
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/slider.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
 <div class="container py-4 netflix-container">
+    <div class="swiper mySwiper mb-5">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="{{ asset('images/banner4.jpg') }}" alt="Banner 1">
+            </div>
+            <div class="swiper-slide">
+                <img src="{{ asset('images/banner2.jpg') }}" alt="Banner 2">
+            </div>
+            <div class="swiper-slide">
+                <img src="{{ asset('images/banner3.jpeg') }}" alt="Banner 3">
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
 
-    {{-- ================= FEATURED ================= --}}
     <h2 class="netflix-title">FEATURED</h2>
     <div class="film-grid">
         @forelse($featured as $film)
@@ -19,8 +38,7 @@
                         🎭 {{ $film->genre->name ?? '-' }} <br>
                         ⭐ {{ $film->rating }} | 📅 {{ $film->year }}
                     </p>
-                    <p class="synopsis">{{ $film->synopsis }}</p>
-
+                    <p class="synopsis">{{ Str::limit($film->synopsis, 100) }}</p>
                     <a href="#" class="btn-watch-now">Tonton Sekarang</a>
                 </div>
             </div>
@@ -29,9 +47,9 @@
         @endforelse
     </div>
 
-    {{-- ================= ALL FILM ================= --}}
+
     <div class="mt-5">
-        <h2 class="netflix-title">ALL FILM </h2>
+        <h2 class="netflix-title">ALL FILM</h2>
         <div class="film-grid">
             @forelse($latest as $film)
                 <div class="film-card">
@@ -52,7 +70,6 @@
         </div>
     </div>
 
-    {{-- ================= FILM ACTION ================= --}}
     <div class="mt-5">
         <h2 class="netflix-title">FILM ACTION</h2>
         <div class="film-grid">
@@ -75,7 +92,6 @@
         </div>
     </div>
 
-    {{-- ================= FILM HOROR ================= --}}
     <div class="mt-5">
         <h2 class="netflix-title">FILM HORROR</h2>
         <div class="film-grid">
@@ -98,6 +114,8 @@
         </div>
     </div>
 
-
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="{{ asset('js/slider.js') }}"></script>
 @endsection
