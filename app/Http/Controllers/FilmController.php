@@ -125,12 +125,12 @@ class FilmController extends Controller
         $featured = Film::with('genre')
             ->where('is_featured', true)
             ->orderByDesc('year')
-            ->take(6)
+            ->take(8)
             ->get();
 
         $latest = Film::with('genre')
             ->orderByDesc('release_date')
-            ->take(10)
+            ->take(15)
             ->get();
 
         $action = Film::with('genre')

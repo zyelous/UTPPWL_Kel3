@@ -60,12 +60,6 @@
             <input type="file" name="poster" class="form-control" accept="image/*">
         </div>
 
-        {{-- Upload Poster --}}
-        <div class="mb-3">
-            <label class="form-label">Poster Film</label>
-            <input type="file" name="poster" class="form-control" accept="image/*" required>
-        </div>
-
         {{-- Tombol Aksi --}}
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-success">Simpan</button>
