@@ -26,6 +26,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // User area
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/home', [FilmController::class, 'showForUser'])->name('user.home');
+    Route::get('/genre', [FilmController::class, 'showGenresForUser'])->name('user.genre');
+    Route::get('/genre/{name}', [FilmController::class, 'showFilmByGenre'])->name('user.genre.show');
+        
 });
 
 // Route publik agar user bisa lihat daftar film

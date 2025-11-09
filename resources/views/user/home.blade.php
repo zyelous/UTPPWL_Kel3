@@ -6,7 +6,7 @@
 <div class="container py-4 netflix-container">
 
     {{-- ================= FEATURED ================= --}}
-    <h2 class="netflix-title">🎬 FEATURED</h2>
+    <h2 class="netflix-title">FEATURED</h2>
     <div class="film-grid">
         @forelse($featured as $film)
             <div class="film-card">
@@ -31,7 +31,7 @@
 
     {{-- ================= ALL FILM ================= --}}
     <div class="mt-5">
-        <h2 class="netflix-title">📅 ALL FILM </h2>
+        <h2 class="netflix-title">ALL FILM </h2>
         <div class="film-grid">
             @forelse($latest as $film)
                 <div class="film-card">
@@ -54,7 +54,7 @@
 
     {{-- ================= FILM ACTION ================= --}}
     <div class="mt-5">
-        <h2 class="netflix-title">💥 FILM ACTION</h2>
+        <h2 class="netflix-title">FILM ACTION</h2>
         <div class="film-grid">
             @forelse($action as $film)
                 <div class="film-card">
@@ -77,7 +77,7 @@
 
     {{-- ================= FILM HOROR ================= --}}
     <div class="mt-5">
-        <h2 class="netflix-title">👻 FILM HORROR</h2>
+        <h2 class="netflix-title">FILM HORROR</h2>
         <div class="film-grid">
             @forelse($horror as $film)
                 <div class="film-card">

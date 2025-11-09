@@ -24,6 +24,7 @@
                     {{-- Jika role user --}}
                     @if(Auth::user()->role === 'user')
                         <li class="nav-item"><a class="nav-link" href="{{ route('user.home') }}">Film</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('user.genre') }}">Genre</a></li>
                     @endif
                 @endauth
             </ul>

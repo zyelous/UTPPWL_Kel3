@@ -1,32 +1,31 @@
-/* ==========================
-   🌑 GLOBAL STYLE
-========================== */
+/* ============================================
+   🌍 GLOBAL STYLE
+============================================ */
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
+}
+
+body {
   font-family: "Poppins", Arial, sans-serif;
   background-color: #0f0f0f;
   color: #fff;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
+  padding-top: 75px; /* biar tidak ketabrak navbar fixed-top */
 }
 
-/* Biar konten gak ketabrak navbar */
-body {
-  padding-top: 75px; /* tinggi navbar fixed-top */
-}
-
-/* ==========================
+/* ============================================
    🎬 NAVBAR
-========================== */
-.navbar {
+============================================ */
+.navbar, .netflix-nav {
   background-color: #000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.6rem 2rem;
 }
 
-.navbar-brand {
+.navbar-brand, .netflix-logo {
   font-weight: 700;
   font-size: 1.5rem;
   letter-spacing: 1px;
@@ -34,29 +33,61 @@ body {
   color: #fff !important;
 }
 
-.navbar-brand span {
+.navbar-brand span,
+.netflix-logo span {
   color: #e50914;
 }
 
-.navbar .form-control {
-  background-color: #333;
-  color: #fff;
-  border: none;
+.netflix-menu .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  margin: 0 10px;
+  transition: color 0.3s ease;
 }
 
-.navbar .form-control::placeholder {
+.netflix-menu .nav-link:hover {
+  color: #e50914 !important;
+}
+
+.netflix-search input {
+  background-color: #333;
+  border: none;
+  color: #fff;
+}
+
+.netflix-search input::placeholder {
   color: #aaa;
 }
 
-/* ==========================
+.netflix-search .btn-outline-light {
+  border-color: #555;
+  color: #ccc;
+}
+
+.netflix-search .btn-outline-light:hover {
+  background-color: #e50914;
+  color: #fff;
+}
+
+/* ============================================
    🧱 CARD (Login/Register)
-========================== */
+============================================ */
 .card {
   background-color: #1b1b1b;
   border: none;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-top: 50px;
+  transition: transform 0.3s ease;
   color: #fff;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-body {
+  padding: 30px;
 }
 
 .card h4 {
@@ -64,6 +95,9 @@ body {
   font-weight: 700;
 }
 
+/* ============================================
+   🔴 BUTTONS
+============================================ */
 .btn {
   border-radius: 8px;
   font-weight: 500;
@@ -79,21 +113,39 @@ body {
   background-color: #f6121d;
 }
 
+/* ============================================
+   🎞️ FILM SECTION
+============================================ */
+.container, .netflix-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
 
-/* ==========================
-   🖼️ FILM GRID
-========================== */
+.netflix-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: left;
+  margin-bottom: 20px;
+  border-left: 4px solid #e50914;
+  padding-left: 10px;
+}
+
+/* Film Grid */
 .film-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
 }
 
+/* Film Card */
 .film-card {
-  background-color: #1b1b1b;
+  position: relative;
+  background-color: #181818;
   border-radius: 10px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -108,12 +160,28 @@ body {
   object-fit: cover;
 }
 
+/* Featured Label */
+.badge-featured {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #e50914;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+/* Info Film */
 .film-info {
   padding: 10px;
   text-align: center;
 }
 
 .film-title {
+  font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
   margin-bottom: 5px;
@@ -124,9 +192,47 @@ body {
   color: #aaa;
 }
 
-/* ==========================
+/* Tombol Tonton Sekarang */
+.btn-watch-now {
+  display: inline-block;
+  margin-top: 8px;
+  background-color: #e50914;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-watch-now:hover {
+  background-color: #f40612;
+  transform: scale(1.05);
+  text-decoration: none;
+  color: white;
+}
+
+/* ============================================
+   🧩 GENRE CARD
+============================================ */
+.genre-card {
+  width: 180px;
+  text-align: center;
+  background-color: #222;
+  border-radius: 10px;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+.genre-card:hover {
+  background-color: #e50914;
+  transform: translateY(-5px);
+}
+
+/* ============================================
    ⚫ FOOTER
-========================== */
+============================================ */
 footer {
   background-color: #000;
   color: #b3b3b3;
@@ -134,7 +240,7 @@ footer {
   padding: 40px 0 20px;
   margin-top: auto;
   width: 100%;
-  position: relative; /* biar gak fixed */
+  position: relative;
 }
 
 footer h5 {
@@ -162,15 +268,23 @@ footer .text-center {
   color: #777;
 }
 
-/* ==========================
-   📱 RESPONSIVE
-========================== */
+/* ============================================
+   📱 RESPONSIVE DESIGN
+============================================ */
 @media (max-width: 768px) {
   body {
-    padding-top: 60px; /* biar navbar mobile gak terlalu tinggi */
+    padding-top: 60px;
   }
 
   .film-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .netflix-title {
+    font-size: 1.4rem;
+  }
+
+  .genre-card {
+    width: 45%;
   }
 }

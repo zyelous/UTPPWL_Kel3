@@ -130,7 +130,7 @@ class FilmController extends Controller
 
         $latest = Film::with('genre')
             ->orderByDesc('release_date')
-            ->take(6)
+            ->take(10)
             ->get();
 
         $action = Film::with('genre')
@@ -164,5 +164,20 @@ class FilmController extends Controller
 }
 
         return view('user.home', compact('featured', 'latest', 'action', 'horror'));
+    }
+    public function showGenresForUser()
+    {
+         $genre = Genre::orderBy('name', 'asc')->get();
+         return view('user.genre', compact('genre'));
+    }
+    public function showFilmByGenre($name)
+    {
+    $genre = Genre::where('name', $name)->firstOrFail();
+    $film = Film::with('genre')
+                ->whereHas('genre', fn($q) => $q->where('name', $name))
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+    return view('user.genre-film', compact('genre', 'film'));
     }
 }
