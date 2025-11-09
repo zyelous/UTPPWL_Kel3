@@ -15,6 +15,7 @@ class FilmSeeder extends Seeder
             ['title'=>'Inception','year'=>2010,'rating'=>8.8,'genre'=>'Sci-Fi'],
             ['title'=>'The Dark Knight','year'=>2008,'rating'=>9.0,'genre'=>'Action'],
             ['title'=>'Titanic','year'=>1997,'rating'=>7.9,'genre'=>'Romance'],
+            ['title'=>'Harry Potter and the Sorcerers Stone','year'=>2001,'rating'=>7.6,'genre'=>'Adventure'],
         ];
 
         foreach ($films as $f) {
