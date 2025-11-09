@@ -10,10 +10,11 @@
 
     <a href="{{ route('films.create') }}" class="btn btn-primary mb-3">+ Tambah Film</a>
 
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark text-center">
             <tr>
                 <th>#</th>
+                <th>Poster</th>
                 <th>Judul</th>
                 <th>Tahun</th>
                 <th>Rating</th>
@@ -23,8 +24,21 @@
         </thead>
         <tbody>
             @foreach($films as $film)
-                <tr>
+                <tr class="text-center">
                     <td>{{ $loop->iteration }}</td>
+                    
+                    {{-- Kolom Gambar --}}
+                    <td>
+                        @if($film->poster)
+                            <img src="{{ asset('storage/' . $film->poster) }}" 
+                                 alt="{{ $film->title }}" 
+                                 class="img-thumbnail"
+                                 style="width: 80px; height: 120px; object-fit: cover;">
+                        @else
+                            <span class="text-muted">Tidak ada gambar</span>
+                        @endif
+                    </td>
+
                     <td>{{ $film->title }}</td>
                     <td>{{ $film->year }}</td>
                     <td>{{ $film->rating }}</td>

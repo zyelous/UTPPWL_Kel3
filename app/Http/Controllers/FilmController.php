@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Film;
 use App\Models\Genre;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
 class FilmController extends Controller
 {
@@ -14,6 +14,7 @@ class FilmController extends Controller
         $this->middleware('auth')->except('showForUser');
     }
 
+    // =================== ADMIN ===================
     public function index()
     {
         $films = Film::with('genre')->get();
@@ -34,6 +35,8 @@ class FilmController extends Controller
             'rating'   => 'required|numeric',
             'genre_id' => 'required|exists:genres,id',
             'poster'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'is_featured' => 'nullable|boolean',
+            'release_date' => 'nullable|date',
         ]);
 
         $data['user_id'] = auth()->id();
@@ -61,6 +64,8 @@ class FilmController extends Controller
             'rating'   => 'required|numeric',
             'genre_id' => 'required|exists:genres,id',
             'poster'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'is_featured' => 'nullable|boolean',
+            'release_date' => 'nullable|date',
         ]);
 
         if ($request->hasFile('poster')) {
@@ -78,7 +83,6 @@ class FilmController extends Controller
 
     public function destroy(Film $film)
     {
-        
         if (!empty($film->poster) && Storage::exists('public/' . $film->poster)) {
             Storage::delete('public/' . $film->poster);
         }
@@ -87,10 +91,33 @@ class FilmController extends Controller
         return back()->with('success', 'Film dihapus!');
     }
 
-   
+    // =================== USER VIEW ===================
     public function showForUser()
     {
-        $films = Film::with('genre')->get();
-        return view('user.home', compact('films'));
+        // Data untuk section FEATURED
+        $featured = Film::with('genre')
+            ->where('is_featured', true)
+            ->orderByDesc('year')
+            ->take(6)
+            ->get();
+
+        // Data untuk section FILM TERBARU (berdasarkan tanggal rilis)
+        $latest = Film::with('genre')
+            ->orderByDesc('release_date')
+            ->take(6)
+            ->get();
+
+        // Data untuk section FILM ACTION (berdasarkan genre Action)
+        $action = Film::with('genre')
+            ->whereHas('genre', fn($q) => $q->where('name', 'Action'))
+            ->take(6)
+            ->get();
+
+        $horror = Film::with('genre')
+           ->whereHas('genre', fn($q) => $q->where('name', 'Horror'))
+           ->take(6)
+           ->get();
+
+        return view('user.home', compact('featured', 'latest', 'action','horror'));
     }
 }
