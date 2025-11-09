@@ -1,0 +1,11 @@
+[33m25f7558[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/genre[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m7c21892[m HEAD@{1}: reset: moving to HEAD
+[33m7c21892[m HEAD@{2}: pull origin main: Fast-forward
+[33m3c8923e[m HEAD@{3}: reset: moving to HEAD
+[33m3c8923e[m HEAD@{4}: pull origin main: Fast-forward
+[33mc6d94f2[m HEAD@{5}: reset: moving to HEAD
+[33mc6d94f2[m HEAD@{6}: commit: Fix layout navbar dan footer
+[33mb20daef[m HEAD@{7}: checkout: moving from main to main
+[33mb20daef[m HEAD@{8}: checkout: moving from main to main
+[33mb20daef[m HEAD@{9}: pull --tags origin main: Fast-forward
+[33md7218a4[m HEAD@{10}: clone: from https://github.com/zyelous/UTPPWL_Kel3

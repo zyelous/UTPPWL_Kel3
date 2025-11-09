@@ -16,7 +16,7 @@
                             🎭 {{ $film->genre->name ?? '-' }} <br>
                             ⭐ {{ $film->rating }} | 📅 {{ $film->year }}
                         </p>
-                        <a href="#" class="btn-watch-now">Tonton Sekarang</a>
+                        <a href="{{ route('user.film.show', $film->id) }}" class="btn-watch-now">Tonton Sekarang</a>
                     </div>
                     </div>
                 </div>
