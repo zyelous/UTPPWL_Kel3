@@ -130,7 +130,7 @@ class FilmController extends Controller
 
         $latest = Film::with('genre')
             ->orderByDesc('release_date')
-            ->take(15)
+            ->take(20)
             ->get();
 
         $action = Film::with('genre')
@@ -180,4 +180,15 @@ class FilmController extends Controller
 
     return view('user.genre-film', compact('genre', 'film'));
     }
+    // gunakan atasan file: use App\Models\Film;
+
+public function showFilmDetail(Film $film)
+{
+    // eager load genre (jika relasi)
+    $film->load('genre');
+
+    // tampilkan view detail (user)
+    return view('user.film-show', compact('film'));
+}
+
 }
