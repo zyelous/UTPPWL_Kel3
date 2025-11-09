@@ -49,6 +49,15 @@
                 <option value="0">Tidak</option>
                 <option value="1">Ya</option>
             </select>
+         
+        <div class="mb-3">
+            <label class="form-label">Sinopsis</label>
+            <textarea name="synopsis" rows="4" class="form-control">{{ old('synopsis') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Poster Film</label>
+            <input type="file" name="poster" class="form-control" accept="image/*">
         </div>
 
         {{-- Upload Poster --}}

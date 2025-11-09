@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@php use Illuminate\Support\Str; @endphp
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
@@ -19,6 +19,8 @@
                         🎭 {{ $film->genre->name ?? '-' }} <br>
                         ⭐ {{ $film->rating }} | 📅 {{ $film->year }}
                     </p>
+                    <p class="synopsis">{{ $film->synopsis }}</p>
+
                     <a href="#" class="btn-watch-now">Tonton Sekarang</a>
                 </div>
             </div>

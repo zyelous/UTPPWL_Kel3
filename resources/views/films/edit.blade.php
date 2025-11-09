@@ -47,6 +47,11 @@
         </div>
 
         {{-- Film Unggulan --}}
+         <div class="mb-3">
+            <label class="form-label">Sinopsis</label>
+            <textarea name="synopsis" rows="4" class="form-control">{{ old('synopsis', $film->synopsis) }}</textarea>
+        </div>
+
         <div class="mb-3">
             <label class="form-label">Jadikan Film Unggulan?</label>
             <select name="is_featured" class="form-select" required>
