@@ -26,7 +26,7 @@ class FilmSeeder extends Seeder
                     'year' => $f['year'],
                     'rating' => $f['rating'],
                     'genre_id' => $genre->id,
-                    'user_id' => 1, // admin user created by seeder
+                    'user_id' => 1, 
                 ]);
             }
         }

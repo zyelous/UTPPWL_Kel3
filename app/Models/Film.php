@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class Film extends Model
 {
@@ -14,6 +16,8 @@ class Film extends Model
         'title',
         'year',
         'rating',
+        'synopsis',
+        'poster',
         'genre_id',
         'user_id',
         'poster',
@@ -26,26 +30,34 @@ class Film extends Model
         return $this->belongsTo(Genre::class);
     }
 
-    public function user()
+    public function setSynopsisAttribute($value)
     {
-        return $this->belongsTo(User::class);
+        $this->attributes['synopsis'] = $value
+            ? Crypt::encryptString($value)
+            : null;
     }
 
-    /**
-     * Accessor untuk menampilkan URL poster lengkap.
-     * Contoh: {{ $film->poster_url }}
-     */
+    public function getSynopsisAttribute($value)
+    {
+        if (!$value) {
+            return '-';
+        }
+
+        try {
+            return Crypt::decryptString($value);
+        } catch (DecryptException $e) {
+            return '[Sinopsis tidak dapat dibaca]';
+        }
+    }
+
     public function getPosterUrlAttribute()
     {
         if ($this->poster && Storage::disk('public')->exists($this->poster)) {
-            // Jika gambar tersimpan di storage/public
             return asset('storage/' . $this->poster);
         } elseif ($this->poster && filter_var($this->poster, FILTER_VALIDATE_URL)) {
-            // Jika sudah berupa URL (misal dari link eksternal)
             return $this->poster;
         }
 
-        // Jika tidak ada gambar
-        return asset('images/default-poster.jpg'); // optional: buat default poster
+        return asset('images/default-poster.jpg'); 
     }
 }

@@ -6,24 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-       Schema::table('films', function (Blueprint $table) {
-        $table->boolean('is_featured')->default(false);
-        $table->date('release_date')->nullable();
-    });
+        Schema::table('films', function (Blueprint $table) {
+            $table->boolean('is_featured')->default(false)->after('poster');
+            $table->date('release_date')->nullable()->after('is_featured');
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('films', function (Blueprint $table) {
-        $table->dropColumn(['is_featured', 'release_date']);
-    });
+            $table->dropColumn(['is_featured', 'release_date']);
+        });
     }
 };

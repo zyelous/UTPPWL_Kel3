@@ -6,6 +6,8 @@ use App\Models\Film;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class FilmController extends Controller
 {
@@ -14,7 +16,6 @@ class FilmController extends Controller
         $this->middleware('auth')->except('showForUser');
     }
 
-    // =================== ADMIN ===================
     public function index()
     {
         $films = Film::with('genre')->get();
@@ -30,94 +31,138 @@ class FilmController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'    => 'required|string',
+            'title'    => 'required|string|max:255',
             'year'     => 'required|integer',
-            'rating'   => 'required|numeric',
+            'rating'   => 'required|numeric|min:0|max:10',
             'genre_id' => 'required|exists:genres,id',
             'poster'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'is_featured' => 'nullable|boolean',
             'release_date' => 'nullable|date',
+            'synopsis' => 'nullable|string'
         ]);
 
         $data['user_id'] = auth()->id();
 
+        if (!empty($data['synopsis'])) {
+            $data['synopsis'] = Crypt::encryptString($data['synopsis']);
+        }
+
         if ($request->hasFile('poster')) {
-            $data['poster'] = $request->file('poster')->store('posters', 'public');
+            try {
+                $data['poster'] = $request->file('poster')->store('posters', 'public');
+            } catch (\Exception $e) {
+                return back()->withErrors(['poster' => 'Gagal mengunggah poster.'])->withInput();
+            }
         }
 
         Film::create($data);
-
         return redirect()->route('films.index')->with('success', 'Film berhasil ditambahkan!');
     }
 
     public function edit(Film $film)
     {
         $genres = Genre::all();
+
+        try {
+            if (!empty($film->synopsis)) {
+                $film->synopsis = Crypt::decryptString($film->synopsis);
+            }
+        } catch (DecryptException $e) {
+            $film->synopsis = '[Sinopsis tidak dapat dibaca]';
+        }
+
         return view('films.edit', compact('film', 'genres'));
     }
 
     public function update(Request $request, Film $film)
     {
         $data = $request->validate([
-            'title'    => 'required|string',
+            'title'    => 'required|string|max:255',
             'year'     => 'required|integer',
-            'rating'   => 'required|numeric',
+            'rating'   => 'required|numeric|min:0|max:10',
             'genre_id' => 'required|exists:genres,id',
             'poster'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'is_featured' => 'nullable|boolean',
             'release_date' => 'nullable|date',
+            'synopsis' => 'nullable|string'
         ]);
 
-        if ($request->hasFile('poster')) {
-            if (!empty($film->poster) && Storage::exists('public/' . $film->poster)) {
-                Storage::delete('public/' . $film->poster);
-            }
+        if (!empty($data['synopsis'])) {
+            $data['synopsis'] = Crypt::encryptString($data['synopsis']);
+        }
 
-            $data['poster'] = $request->file('poster')->store('posters', 'public');
+        if ($request->hasFile('poster')) {
+            try {
+                if (!empty($film->poster) && Storage::exists('public/' . $film->poster)) {
+                    Storage::delete('public/' . $film->poster);
+                }
+                $data['poster'] = $request->file('poster')->store('posters', 'public');
+            } catch (\Exception $e) {
+                return back()->withErrors(['poster' => 'Gagal memperbarui poster.'])->withInput();
+            }
         }
 
         $film->update($data);
-
         return redirect()->route('films.index')->with('success', 'Film berhasil diperbarui!');
     }
 
     public function destroy(Film $film)
     {
-        if (!empty($film->poster) && Storage::exists('public/' . $film->poster)) {
-            Storage::delete('public/' . $film->poster);
+        try {
+            if (!empty($film->poster) && Storage::exists('public/' . $film->poster)) {
+                Storage::delete('public/' . $film->poster);
+            }
+            $film->delete();
+        } catch (\Exception $e) {
+            return back()->withErrors(['delete' => 'Gagal menghapus film.']);
         }
 
-        $film->delete();
         return back()->with('success', 'Film dihapus!');
     }
 
-    // =================== USER VIEW ===================
     public function showForUser()
     {
-        // Data untuk section FEATURED
         $featured = Film::with('genre')
             ->where('is_featured', true)
             ->orderByDesc('year')
             ->take(6)
             ->get();
 
-        // Data untuk section FILM TERBARU (berdasarkan tanggal rilis)
         $latest = Film::with('genre')
             ->orderByDesc('release_date')
             ->take(6)
             ->get();
 
-        // Data untuk section FILM ACTION (berdasarkan genre Action)
         $action = Film::with('genre')
             ->whereHas('genre', fn($q) => $q->where('name', 'Action'))
             ->take(6)
             ->get();
 
         $horror = Film::with('genre')
-           ->whereHas('genre', fn($q) => $q->where('name', 'Horror'))
-           ->take(6)
-           ->get();
+            ->whereHas('genre', fn($q) => $q->where('name', 'Horror'))
+            ->take(6)
+            ->get();
 
-        return view('user.home', compact('featured', 'latest', 'action','horror'));
+       
+        foreach ([$featured, $latest, $action, $horror] as $collection) {
+    foreach ($collection as $film) {
+        if (!empty($film->synopsis)) {
+            try {
+                if (preg_match('/^[A-Za-z0-9\/+=]{40,}$/', $film->synopsis)) {
+                    $film->synopsis = Crypt::decryptString($film->synopsis);
+                }
+                else {
+                    $film->synopsis = $film->synopsis;
+                }
+            } catch (DecryptException $e) {
+                $film->synopsis = '[Sinopsis tidak tersedia]';
+            }
+        } else {
+            $film->synopsis = '-';
+        }
+    }
+}
+
+        return view('user.home', compact('featured', 'latest', 'action', 'horror'));
     }
 }
